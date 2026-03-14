@@ -13,12 +13,16 @@ export default function RootLayout() {
     return (
     <ThemeProvider value={DarkTheme}>
         <Stack>
-
-            
-
             <Stack.Screen 
             name ="index" 
-            options={{ title: 'Events', headerLargeTitle: true }}
+            options={{ 
+                title: 'Events', 
+                headerLargeTitle: true,
+                headerShadowVisible: true,
+                headerStyle: {
+                    backgroundColor: '#141414',
+                },
+            }}
             />
         </Stack>
         </ThemeProvider>

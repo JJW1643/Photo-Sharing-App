@@ -8,8 +8,8 @@ import { View, Text } from 'react-native';
 export default function Home() {
     // This is what the component actually displays on screen. Everything inside here is what the user will see when they open the app.
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text className='text-2xl font-bold'>Home</Text>    
+        <View className= 'flex-1 justify-center items-center bg-neutral-800'>
+            <Text className='text-2xl font-bold text-white'>Home</Text>    
         </View>
     );
 }
