@@ -51,7 +51,7 @@ export default function CameraScreen() {
       <SafeAreaView 
         edges={['bottom']}
         className='flex-row bg-transparent w-full p-4 justify-center items-center'>
-            <Pressable className='bg-white rounded-full w-20 h-20' />
+            <Pressable onPress={takePhoto} className='bg-white rounded-full w-20 h-20' />
       </SafeAreaView>
     </View>
   );
