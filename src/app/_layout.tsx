@@ -5,7 +5,7 @@ import '../../global.css';
 import { Stack } from "expo-router";
 // Import the dark theme from react navigation and wrap the entire app in it
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
-import Camera from './camera';
+import Camera from './Camera';
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 
