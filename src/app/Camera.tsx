@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import { ActivityIndicator, Button, StyleSheet, Text, TouchableOpacity, View, Pressable } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 
 
 export default function CameraScreen() {
@@ -45,7 +46,16 @@ export default function CameraScreen() {
   return (
     // This is the main view of the camera screen. It contains the camera view and a button to toggle between the front and back cameras. The camera view is styled to take up the entire screen, and the button is positioned at the bottom of the screen.
     <View style={styles.container}>
-      <CameraView ref={camera} style={styles.camera} facing={facing} />
+      <CameraView ref={camera} style={styles.camera} facing={facing}>
+        <View className='absolute bottom-0 bg-neutral-900/20 w-full p-4'>
+            <Ionicons 
+                name='camera-reverse' 
+                size={24} 
+                color='white' 
+                onPress={toggleCameraFacing} 
+            />
+        </View>
+        </CameraView>
 
     {/*Footer */}
       <SafeAreaView 
