@@ -12,9 +12,13 @@ export default function Home() {
 
     // This code produces a link to the camera screen of the app. It uses the Link component from expo-router to navigate to the camera screen when the user clicks on it. The link is styled using Tailwind CSS classes to make it look nice and consistent with the rest of the app's design.
     return (
-        <View className= 'flex-1 justify-center items-center bg-neutral-800'>
+        <View className= 'flex-1 justify-center items-center bg-neutral-800 gap-20'>
             <Link href='/Camera' className='text-white text-2xl font-bold flex-row items-center space-x-2'>
                Open Camera
+            </Link>
+
+            <Link href='/event' className='text-white text-2xl font-bold flex-row items-center space-x-2'>
+               Event Details
             </Link>
         </View>
     );
