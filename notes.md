@@ -49,3 +49,8 @@
 - Fix package versions: `npx expo install --fix`
 - Install specific package: `npx expo install packagename`
 - Full clean reinstall: `rm -rf node_modules` → `npm install`
+
+## AsyncStorage Error
+**Error:** `AsyncStorageError: Native module is null, cannot access legacy storage`
+**Fix:** `npx expo install @react-native-async-storage/async-storage` then `npx expo start --clear`
+**Cause:** Supabase requires AsyncStorage to save user session data locally on the device

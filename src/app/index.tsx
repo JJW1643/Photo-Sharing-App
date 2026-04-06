@@ -14,7 +14,7 @@ export default function Home() {
     useEffect(() => {
         supabase.
         from('Events')
-        .select('*')
+        .select('*, assets(*)')
         .then((data) => console.log(JSON.stringify(data, null, 2)));
     }, []);
 
