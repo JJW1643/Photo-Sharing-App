@@ -8,13 +8,34 @@ import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import Camera from './Camera';
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import { useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+import { AuthProvider } from '../providers/AuthProvider';
 
 // This is the root layout of the app, it wraps all the screens in the app and sets the theme to dark
 export default function RootLayout() {
     
+    useEffect(() => {
+
+        const signInIfNeeded = async () => {
+            const { data, error } = await supabase.auth.getSession();
+            if (error) {
+                console.error('Error fetching session:', error);
+            }
+            if (!data.session) {
+                await supabase.auth.signInAnonymously();
+            }
+        };
+
+        signInIfNeeded();
+    }, []);
+
+
+
     // Set the layout of the index page to be the events page
     return (
     <ThemeProvider value={DarkTheme}>
+        <AuthProvider>  
         <Stack>
             <Stack.Screen 
             name ="index" 
@@ -45,7 +66,8 @@ export default function RootLayout() {
                 )
              }}
             />
-         </Stack>
+            </Stack>
+         </AuthProvider> 
         </ThemeProvider>
     );
 }
