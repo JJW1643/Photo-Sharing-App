@@ -11,6 +11,11 @@ import { Link } from 'expo-router';
 import { useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { AuthProvider } from '../providers/AuthProvider';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// The QueryClient is a central part of React Query that manages the caching and fetching of data in your application. By creating a single instance of QueryClient and providing it to your app using the QueryClientProvider, you enable React Query to efficiently handle data fetching, caching, and updating across all components in your app. This setup allows you to easily manage server state and keep your UI in sync with your backend data.
+
+const queryClient = new QueryClient();
 
 // This is the root layout of the app, it wraps all the screens in the app and sets the theme to dark
 export default function RootLayout() {
@@ -35,17 +40,17 @@ export default function RootLayout() {
     // Set the layout of the index page to be the events page
     return (
     <ThemeProvider value={DarkTheme}>
-        <AuthProvider>  
-        <Stack>
-            <Stack.Screen 
+        <QueryClientProvider client={queryClient}>
+            <AuthProvider>  
+             <Stack>
+                <Stack.Screen 
             name ="index" 
             options={{ 
                 title: 'Events', 
                 headerLargeTitle: true,
                 headerShadowVisible: true,
-                headerStyle: {
-                    backgroundColor: '#141414',
-                },
+                headerTransparent: true,
+                
             }}
             />
 
@@ -66,8 +71,9 @@ export default function RootLayout() {
                 )
              }}
             />
-            </Stack>
-         </AuthProvider> 
+                    </Stack>
+                </AuthProvider> 
+            </QueryClientProvider>
         </ThemeProvider>
     );
 }
