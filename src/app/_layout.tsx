@@ -48,10 +48,18 @@ export default function RootLayout() {
             options={{ 
                 title: 'Events', 
                 headerLargeTitle: true,
-                headerShadowVisible: true,
                 headerTransparent: true,
                 
             }}
+            />
+
+            <Stack.Screen
+            name="events/[id]"
+            options={{ 
+                title: 'Event',
+                headerLargeTitle: true,
+                headerBackButtonDisplayMode: 'minimal',
+             }}
             />
 
             <Stack.Screen
