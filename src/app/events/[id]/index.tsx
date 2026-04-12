@@ -1,14 +1,10 @@
-import { View, Text, useWindowDimensions, ActivityIndicator } from 'react-native';
-import { AdvancedImage } from 'cloudinary-react-native';
-import { cloudinary } from '../../lib/cloudinary';
-import { thumbnail } from '@cloudinary/url-gen/actions/resize';
-import { artisticFilter } from '@cloudinary/url-gen/actions/effect';
-import { useLocalSearchParams } from 'expo-router';
+import { View, Text, ActivityIndicator, Pressable, FlatList } from 'react-native';
+import { Link, useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
-import { getEvent } from '../../services/events';
-import { Activity } from 'react';
+import { getEvent } from '@/services/events';
 import { Stack } from 'expo-router';
-
+import { Ionicons } from '@expo/vector-icons';
+import AssetItem from '@/components/AssetItem';
 
 export default function EventDetails() {
 
@@ -16,12 +12,11 @@ export default function EventDetails() {
 
     const { id } = useLocalSearchParams<{ id: string }>();
 
-    const {data: event, isLoading, error} = useQuery({
+    const {data: event, isLoading, error, isRefetching, refetch,} = useQuery({
         queryKey: ['Events', id],
         queryFn: () => getEvent(id),
     });
 
-    const {width} = useWindowDimensions();
 
     if (isLoading) {
         return <ActivityIndicator />;
@@ -34,19 +29,29 @@ export default function EventDetails() {
 
     // This is what the component actually displays on screen. Everything inside here is what the user will see when they open the event details page. We are using the AdvancedImage component from cloudinary-react-native to display an image of the event. We are able to import the Stack component from expo-router and use it to set the title of the screen to the name of the event. 
     return (
-        <View className='mt-52'>
+        <View className='mt-52 flex-1 '>
             <Stack.Screen options={{ title: event.name }} />
-            <AdvancedImage
-                cldImg={cloudinary
-                    .image('jr0wmublish2uempb2se')
-                    .resize(
-                        thumbnail()
-                        .height(width * (4 / 3))
-                        .width(width)
-                )
-                .effect(artisticFilter('incognito')) }
-            className='w-200 aspect-[3/4]'
-        />
+
+            <FlatList
+                data={event.assets}
+                numColumns={2}
+                contentContainerClassName='gap-1 p-4'
+                columnWrapperClassName='gap-1'
+                renderItem={({ item }) => <AssetItem asset={item} />}
+                contentInsetAdjustmentBehavior='automatic'
+                refreshing={isRefetching}
+                onRefresh={refetch}
+            />
+
+            
+
+                <Link href={'/events/' + event.id + '/Camera'} asChild>
+                    <Pressable className='absolute bottom-12 right-4 flex-row items-center justify-center bg-white p-5 rounded-full'>  
+                        <Ionicons name='camera-outline' size={36} color='black' />
+                    </Pressable>
+                </Link>
+
+
         </View>
     );
 }

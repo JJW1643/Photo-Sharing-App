@@ -5,7 +5,7 @@ import '../../global.css';
 import { Stack } from "expo-router";
 // Import the dark theme from react navigation and wrap the entire app in it
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
-import Camera from './Camera';
+import Camera from "./events/[id]/Camera";
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { useEffect } from 'react';
@@ -54,17 +54,18 @@ export default function RootLayout() {
             />
 
             <Stack.Screen
-            name="events/[id]"
+            name="events/[id]/index"
             options={{ 
                 title: 'Event',
                 headerLargeTitle: true,
+                headerTransparent: true,
                 headerBackButtonDisplayMode: 'minimal',
              }}
             />
 
             <Stack.Screen
             // This is the camera screen of the app, it will be used to take photos and videos and will have a back button to go back to the home screen
-            name="Camera"
+            name="events/[id]/Camera"
             options={{ title: 'Camera', 
                 // This allows the header to be transparent and blur the background when the camera screen is open, it also makes the back button minimal and removes the shadow from the header
                 headerBackButtonDisplayMode: 'minimal',

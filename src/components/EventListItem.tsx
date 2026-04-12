@@ -16,7 +16,7 @@ export default function EventListItem({ event }: EventListItemProps) {
     return (
     <Link href ={'/events/' + event.id} asChild>
         <Pressable className='bg-emerald-600 p-4 rounded-lg'>
-            <Text className='text-white text-2xl font-bold'>{event.name}</Text>;
+            <Text className='text-white text-2xl font-bold'>{event.name}</Text>
         </Pressable>
     </Link>
     );

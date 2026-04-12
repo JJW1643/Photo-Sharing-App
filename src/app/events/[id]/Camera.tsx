@@ -2,12 +2,17 @@
 // This is the camera screen of the app. It will be used to take photos and videos. English - Create a screen called Camera containing the text 'Camera'
 // This is a simple functional component that renders a view with some text. This will be the camera screen of the app.
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
-import { useRef, useState } from 'react';
+import { use, useRef, useState } from 'react';
 import { ActivityIndicator, Button, StyleSheet, Text, TouchableOpacity, View, Pressable } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { uploadToCloudinary } from '../lib/cloudinary';
+import { uploadToCloudinary } from '@/lib/cloudinary';
+import { useLocalSearchParams } from 'expo-router';
+import { useAuth } from '@/providers/AuthProvider';
+import { useMutation } from '@tanstack/react-query';
+import { insertAsset } from '@/services/assets';
+import { useQueryClient } from '@tanstack/react-query';
 
 // This function decleares your screen as a function and exports it so other files can use it. Every single screen in your app is a functio like this.
 export default function CameraScreen() {
@@ -15,6 +20,21 @@ export default function CameraScreen() {
   const [facing, setFacing] = useState<CameraType>('back');
   // This hook is used to request camera permissions from the user. It returns the current permission status and a function to request permissions if they are not granted.
   const [permission, requestPermission] = useCameraPermissions();
+
+  const {id} = useLocalSearchParams<{ id: string }>();
+  const {user} = useAuth();
+  const queryClient = useQueryClient();
+
+  // This mutation will be used to insert a new asset into the database after a photo is taken and uploaded to Cloudinary. The mutationFn is a function that takes an assetID and calls the insertAsset function with the event_id, user_id, and asset_id to save the new asset in the database.
+
+  const insertAssetMutation = useMutation({
+    mutationFn: (assetID: string) => 
+      insertAsset({ event_id: id, user_id: user?.id, asset_id: assetID }),
+    onSuccess: () => {
+        // Invalidate and refetch the event query to update the list of assets in the event details screen after a new asset is added. This ensures that when a user takes a photo and it gets uploaded and saved to the database, the event details screen will show the new photo without needing to manually refresh.
+        queryClient.invalidateQueries({ queryKey: ['Events', id] });
+    }
+  });
 
   const camera =useRef<CameraView>(null);
 
@@ -55,6 +75,12 @@ function toggleCameraFacing() {
         // if photo has a uri, upload to Cloudinary returning a response with the details of the uploaded photo, including a secure_url which is the URL where the photo can be accessed on Cloudinary's servers. We can use this URL to display the photo in our app or share it with others.
         const cloudinaryResponse = await uploadToCloudinary(photo.uri);
         console.log(JSON.stringify(cloudinaryResponse, null, 2));
+
+        // Save it to the database assets table
+        insertAssetMutation.mutate(cloudinaryResponse.public_id);
+
+
+
   }
 
   return (
