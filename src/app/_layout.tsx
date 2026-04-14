@@ -63,23 +63,33 @@ export default function RootLayout() {
              }}
             />
 
-            <Stack.Screen
-            // This is the camera screen of the app, it will be used to take photos and videos and will have a back button to go back to the home screen
-            name="events/[id]/Camera"
-            options={{ title: 'Camera', 
-                // This allows the header to be transparent and blur the background when the camera screen is open, it also makes the back button minimal and removes the shadow from the header
-                headerBackButtonDisplayMode: 'minimal',
-                headerTransparent: true,
-                headerBlurEffect: 'dark',
-                
-                headerRight: () => (
-                    // This is the share button on the camera screen, it will be used to share the photos and videos taken with the camera
-                    <Link href='/' className='mr-2 ml-2'>
-                        <Ionicons name="share-outline" size={24} color="white" />
-                    </Link>
-                )
-             }}
-            />
+                    <Stack.Screen
+                        // This is the camera screen of the app, it will be used to take photos and videos and will have a back button to go back to the home screen
+                        name="events/[id]/Camera"
+                        options={{ title: 'Camera', 
+                            // This allows the header to be transparent and blur the background when the camera screen is open, it also makes the back button minimal and removes the shadow from the header
+                            headerBackButtonDisplayMode: 'minimal',
+                            headerTransparent: true,
+                            headerBlurEffect: 'dark',
+                            
+                            headerRight: () => (
+                                // This is the share button on the camera screen, it will be used to share the photos and videos taken with the camera
+                                <Link href='/' className='mr-2 ml-2'>
+                                    <Ionicons name="share-outline" size={24} color="white" />
+                                </Link>
+                            ),
+                        }}
+                    />
+
+                    <Stack.Screen
+                        name='events/create'
+                        options={{
+                            title: 'Create Event',
+                            presentation: 'modal',
+                        }}
+                    />
+
+
                     </Stack>
                 </AuthProvider> 
             </QueryClientProvider>

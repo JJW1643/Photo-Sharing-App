@@ -1,11 +1,13 @@
 
 // This is the entry point of the application. It defines the main component that will be rendered when the app starts. English - Create a screen called Home containing the text 'Home Screen'
 
-import { Text, ActivityIndicator, FlatList } from 'react-native';
+import { Text, ActivityIndicator, FlatList, Pressable } from 'react-native';
 import { useAuth } from '../providers/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
 import { getEvents } from '../services/events';
 import EventListItem from '../components/EventListItem';
+import { Link } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 
 
@@ -39,6 +41,15 @@ export default function Home() {
                 contentContainerClassName='gap-4 p-4'
                 renderItem={({item}) => <EventListItem event={item} />}
                 contentInsetAdjustmentBehavior='automatic'
+                ListHeaderComponent={() => (
+                    <Link href='/events/create' asChild>
+                        <Pressable className='bg-neutral-100 p-3 rounded-lg mb-4 items-center flex-row justify-center gap-2'>
+                            <Ionicons name='add' size={36} color='neutral-800' />
+                            <Text className= 'text-neutral-800 text-2xl font-bold'>Create Event</Text>
+                        </Pressable>
+                    </Link>
+
+                )}
             />  
     );
 }

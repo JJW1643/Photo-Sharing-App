@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { TablesInsert } from '../types/database.types';
 
 export async function getEvents() {
     const { data } = await supabase.from('Events').select('*').throwOnError();
@@ -10,5 +11,13 @@ export async function getEvents() {
 export async function getEvent(id: string) {
     const { data } = await supabase.from('Events').select('*, assets(*)').eq('id', id)
         .throwOnError().single();
+    return data;
+}
+
+// This function creates a new event in the database. It takes an object that matches the shape of the Events table insert type, which includes the name of the event and optionally the created_at timestamp and id (if you want to specify it, otherwise it will be generated automatically). The function uses the supabase client to insert the new event into the Events table and returns the created event data.
+
+export async function createEvent(newEvent: TablesInsert<'Events'>) {
+    const { data } = await supabase.from('Events').insert(newEvent).select().single().throwOnError();
+
     return data;
 }
