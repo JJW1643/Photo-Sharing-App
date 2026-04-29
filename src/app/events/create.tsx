@@ -17,7 +17,7 @@ export default function CreateEvent() {
     // This mutation is used to create a new event in the database. The mutationFn is a function that calls the createEvent function with the new event data (in this case, just the name). When the mutation is successful, it will return the created event data.
 
     const createEventMutation = useMutation({
-        mutationFn: () => createEvent({ name, owner_id: user?.id }),
+        mutationFn: () => createEvent({ name, owner_id: user?.id }, user!.id),
         onSuccess:(data) => {
             // After the event is created, we want to invalidate the 'Events' query so that any screen that is using the list of events will refetch the data and show the new event in the list. This ensures that after creating a new event, the user will see it in the events list without needing to manually refresh. We also reset the name state to an empty string to clear the input, and then we navigate to the event details page for the newly created event using router.replace(`/events/${data.id}`).
             setName('');

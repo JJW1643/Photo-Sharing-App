@@ -30,7 +30,22 @@ export default function EventDetails() {
     // This is what the component actually displays on screen. Everything inside here is what the user will see when they open the event details page. We are using the AdvancedImage component from cloudinary-react-native to display an image of the event. We are able to import the Stack component from expo-router and use it to set the title of the screen to the name of the event. 
     return (
         <View className='mt-52 flex-1 '>
-            <Stack.Screen options={{ title: event.name }} />
+            <Stack.Screen 
+            options={{ 
+                title: event.name, 
+                headerRight: () => (
+                    <Link href={'/events/' + event.id + '/share'} asChild>
+                        <Ionicons 
+                        name='share-outline' 
+                        size={24} 
+                        color='white'
+                        className='mr-2 ml-2' 
+                        /> 
+                    </Link>
+                )
+            }} 
+
+        />
 
             <FlatList
                 data={event.assets}
